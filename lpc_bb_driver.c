@@ -254,7 +254,7 @@ static ssize_t lpc_bb_driver_read(struct file *filp, char __user *buf_user, size
       return i;
     }
 
-    copy_to_user(buf_user, &rx_buff[rx_buff_tail & LPC_BB_DRIVER_RX_BUFF_MASK], 1);
+    copy_to_user(buf_user+i, &rx_buff[rx_buff_tail & LPC_BB_DRIVER_RX_BUFF_MASK], 1);
     rx_buff_tail++;
 
     up(&rx_buff_empty);
