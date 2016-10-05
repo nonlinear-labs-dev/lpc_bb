@@ -237,9 +237,10 @@ static ssize_t lpc_bb_driver_write(struct file *filp, const char __user *buf, si
   return status;
 }
 
-static ssize_t lpc_bb_driver_read(struct file *filp, char __user *buf, size_t count, loff_t *f_pos)
+static ssize_t lpc_bb_driver_read(struct file *filp, char __user *buf_user, size_t count, loff_t *f_pos)
 {
   unsigned i;
+  char buf[count];
 
   /* If in non-blocking mode and no data to read, return */
   if (filp->f_flags & O_NONBLOCK && rx_buff_head == rx_buff_tail)
@@ -253,7 +254,7 @@ static ssize_t lpc_bb_driver_read(struct file *filp, char __user *buf, size_t co
       return i;
     }
 
-    buf[i] = rx_buff[rx_buff_tail & LPC_BB_DRIVER_RX_BUFF_MASK];
+    copy_to_user(buf_user, &rx_buff[rx_buff_tail & LPC_BB_DRIVER_RX_BUFF_MASK], 1);
     rx_buff_tail++;
 
     up(&rx_buff_empty);
