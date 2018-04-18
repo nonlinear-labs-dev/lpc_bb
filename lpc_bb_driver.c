@@ -16,7 +16,7 @@
 #include <linux/platform_device.h>
 #include <linux/delay.h>
 
-#include <asm/uaccess.h>
+#include <linux/uaccess.h>
 
 
 /* speed can only be f_max/(2^n) -> f_max = 24 MHz */
